@@ -5,12 +5,12 @@
       v-model="url"
       placeholder="https://www.crunchyroll.com/one-piece/episode-918-its-on-the-special-operation-to-bring-down-kaido-793016"
     />
-    <BaseButton @click="fetchInfo(episodeID)">Search</BaseButton>
+    <BaseButton @click="fetchInfo(episodeID)" :disabled="isDownloading">Search</BaseButton>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'search',
@@ -23,6 +23,7 @@ export default {
     episodeID() {
       return this.url.match(/[0-9]+$/)[0]
     },
+    ...mapState(['isDownloading']),
   },
   methods: mapActions(['fetchInfo']),
 }

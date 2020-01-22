@@ -4,6 +4,7 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 
 import { SubtitleChannel } from './ipc/subtitleChannel'
 import { DownloadDirChannel } from './ipc/downloadDirChannel'
+import { SaveSubtitleChannel } from './ipc/saveSubtitleChannel'
 
 class Main {
   constructor() {
@@ -80,7 +81,12 @@ class Main {
     // }
     ipcMain.handle(channels[0].name(), (_, arg) => channels[0].handle(_, arg))
     ipcMain.on(channels[1].name(), (e, _) => channels[1].handle(e, _))
+    ipcMain.handle(channels[2].name(), (_, args) => channels[2].handle(_, args))
   }
 }
 
-new Main().init([new SubtitleChannel(), new DownloadDirChannel()])
+new Main().init([
+  new SubtitleChannel(),
+  new DownloadDirChannel(),
+  new SaveSubtitleChannel(),
+])

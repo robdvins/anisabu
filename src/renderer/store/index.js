@@ -15,6 +15,9 @@ export default new Vuex.Store({
     isInfoSet(state) {
       return Object.keys(state.info).length > 0 ? true : false
     },
+    isToDownloadSet(state) {
+      return state.toDownload.length > 0 ? true : false
+    },
   },
   mutations: {
     SET_INFO(state, info) {

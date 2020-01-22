@@ -1,6 +1,6 @@
 import cheerio from 'cheerio'
 
-export class BuildFile {
+export class BuildSubtitle {
   generateContent(data) {
     const $ = cheerio.load(data, { xmlMode: true })
 

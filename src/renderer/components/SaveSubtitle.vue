@@ -1,12 +1,12 @@
 <template>
   <div>
-    <BaseButton @click="download">Download</BaseButton>
+    <BaseButton @click="download" :disabled="!isToDownloadSet || isDownloading">Download</BaseButton>
     <p v-if="show">{{msg}}</p>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import { ipcRenderer } from 'electron'
 
 export default {
@@ -17,18 +17,26 @@ export default {
       show: false,
     }
   },
-  computed: mapState(['info', 'toDownload']),
+  computed: {
+    ...mapState(['info', 'toDownload', 'downloadDir', 'isDownloading']),
+    ...mapGetters(['isToDownloadSet']),
+  },
   methods: {
+    ...mapActions(['changeIsDownloading']),
     async download() {
+      this.changeIsDownloading(true)
       this.show = true
+
       for (const sub of this.toDownload) {
         let filename = `${this.info.animeTitle} - ${this.info.episodeNumber} [${sub.lang}]`
         filename = filename.replace(/:/g, '')
 
-        const path = this.downloadDir + '/' + filename
+        const savePath = this.downloadDir + '/' + filename
 
-        await ipcRenderer.invoke('save-subs', { subID: sub.subID, path })
+        await ipcRenderer.invoke('save-sub', { subID: sub.subID, savePath })
       }
+
+      this.changeIsDownloading(false)
     },
   },
 }
