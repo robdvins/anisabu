@@ -1,7 +1,8 @@
 'use strict'
-
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+
+import { SubtitleChannel } from './ipc/subtitleChannel'
 
 class Main {
   constructor() {
@@ -13,10 +14,12 @@ class Main {
     ])
   }
 
-  init() {
+  init(ipcChannels) {
     app.on('window-all-closed', this.windowAllClosed)
     app.on('activate', this.activate)
     app.on('ready', this.createWindow)
+
+    this.registerIpcChannels(ipcChannels)
 
     // Exit cleanly on request from parent process in development mode.
     if (this.isDevelopment) {
@@ -69,6 +72,12 @@ class Main {
       this.createWindow()
     }
   }
+
+  registerIpcChannels(channels) {
+    for (const channel of channels) {
+      ipcMain.handle(channel.name(), (_, arg) => channel.handle(_, arg))
+    }
+  }
 }
 
-new Main().init()
+new Main().init([new SubtitleChannel()])
