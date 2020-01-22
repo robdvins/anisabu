@@ -1,12 +1,10 @@
 import os from 'os'
 import path from 'path'
 
-export class DownloadDirChannel {
-  name() {
-    return 'download-dir'
-  }
+const name = () => 'download-dir'
 
-  async handle(e, _) {
-    e.sender.send('download-path', path.join(os.homedir(), '/Desktop'))
-  }
+const handle = (e, _) => {
+  e.sender.send('download-path', path.join(os.homedir(), '/Desktop'))
 }
+
+export { name, handle }
