@@ -4,6 +4,8 @@ import store from './store'
 
 import BaseButton from '@/renderer/components/BaseButton.vue'
 
+import './styles/animations.css'
+
 Vue.component('BaseButton', BaseButton)
 
 Vue.config.productionTip = false
