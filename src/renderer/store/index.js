@@ -9,6 +9,12 @@ export default new Vuex.Store({
     info: {},
     toDownload: [],
     isDownloading: false,
+    downloadDir: '',
+  },
+  getters: {
+    isInfoSet(state) {
+      return Object.keys(state.info).length > 0 ? true : false
+    },
   },
   mutations: {
     SET_INFO(state, info) {
@@ -19,6 +25,9 @@ export default new Vuex.Store({
     },
     SET_IS_DOWNLOADING(state, flag) {
       state.isDownloading = flag
+    },
+    SET_DOWNLOAD_DIR(state, path) {
+      state.downloadDir = path
     },
   },
   actions: {
@@ -31,6 +40,15 @@ export default new Vuex.Store({
     },
     changeIsDownloading({ commit }, flag) {
       commit('SET_IS_DOWNLOADING', flag)
+    },
+    initializeDownloadDir({ commit }) {
+      ipcRenderer.send('download-dir')
+      ipcRenderer.on('download-path', (_, path) => {
+        commit('SET_DOWNLOAD_DIR', path)
+      })
+    },
+    changeDownloadDir({ commit }, path) {
+      commit('SET_DOWNLOAD_DIR', path)
     },
   },
 })

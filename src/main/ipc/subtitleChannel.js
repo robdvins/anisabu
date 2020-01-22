@@ -12,9 +12,10 @@ export class SubtitleChannel {
 
   async handle(_, episodeID) {
     const metadataResponse = await this.service.getMetadata(episodeID)
-    const listResponse = await this.service.getList(episodeID)
 
     let $ = cheerio.load(metadataResponse.data, { xmlMode: true })
+
+    const listResponse = await this.service.getList($('media_id').text())
 
     const metadata = {
       mediaID: $('media_id').text(),
@@ -25,10 +26,10 @@ export class SubtitleChannel {
 
     $ = cheerio.load(listResponse.data, { xmlMode: true })
 
-    const list = []
+    const langs = []
 
     $('subtitle').each((_, el) => {
-      list.push({
+      langs.push({
         subID: $(el).attr('id'),
         lang: $(el)
           .attr('title')
@@ -39,7 +40,7 @@ export class SubtitleChannel {
 
     return {
       ...metadata,
-      list,
+      langs,
     }
   }
 }

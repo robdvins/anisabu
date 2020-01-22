@@ -5,7 +5,7 @@
       v-model="url"
       placeholder="https://www.crunchyroll.com/one-piece/episode-918-its-on-the-special-operation-to-bring-down-kaido-793016"
     />
-    <button @click="fetchInfo(episodeID)">Search</button>
+    <BaseButton @click="fetchInfo(episodeID)">Search</BaseButton>
   </div>
 </template>
 

@@ -3,6 +3,7 @@ import { app, protocol, BrowserWindow, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 
 import { SubtitleChannel } from './ipc/subtitleChannel'
+import { DownloadDirChannel } from './ipc/downloadDirChannel'
 
 class Main {
   constructor() {
@@ -74,10 +75,12 @@ class Main {
   }
 
   registerIpcChannels(channels) {
-    for (const channel of channels) {
-      ipcMain.handle(channel.name(), (_, arg) => channel.handle(_, arg))
-    }
+    // for (const channel of channels) {
+    //   ipcMain.handle(channel.name(), (e, arg) => channel.handle(e, arg))
+    // }
+    ipcMain.handle(channels[0].name(), (_, arg) => channels[0].handle(_, arg))
+    ipcMain.on(channels[1].name(), (e, _) => channels[1].handle(e, _))
   }
 }
 
-new Main().init([new SubtitleChannel()])
+new Main().init([new SubtitleChannel(), new DownloadDirChannel()])
