@@ -1,9 +1,9 @@
 <template>
-  <div id="app">
+  <div id="app" class="flex flex-col h-full px-4">
     <Search />
     <Details />
     <Languages />
-    <div>
+    <div class="mt-auto pb-6">
       <DownloadDirectory />
       <SaveSubtitle />
     </div>
@@ -28,3 +28,9 @@ export default {
   },
 }
 </script>
+
+<style>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+</style>

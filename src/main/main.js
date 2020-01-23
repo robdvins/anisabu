@@ -17,8 +17,9 @@ protocol.registerSchemesAsPrivileged([
 
 function createWindow() {
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 600,
+    height: 700,
+    resizable: false,
     title: 'Anisabu',
     webPreferences: {
       nodeIntegration: true,

@@ -1,12 +1,11 @@
 .loader {
-  width: 3.75em;
   transform-origin: center;
   animation: rotate 2s linear infinite;
 }
 
 .loader > circle {
   fill: none;
-  stroke: #fc2f70;
+  stroke: #4a5568;
   stroke-width: 3;
   stroke-dasharray: 1, 200;
   stroke-dashoffset: 0;
