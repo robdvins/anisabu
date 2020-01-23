@@ -1,6 +1,7 @@
 'use strict'
 import { app, protocol, BrowserWindow, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+import path from 'path'
 
 import * as SubtitleInfoChannel from './ipc/subtitleInfoChannel'
 import * as DownloadDirChannel from './ipc/downloadDirChannel'
@@ -21,10 +22,13 @@ function createWindow() {
     height: 700,
     resizable: false,
     title: 'Anisabu',
+    icon: path.join(__dirname, 'icons/win/icon.ico'),
     webPreferences: {
       nodeIntegration: true,
     },
   })
+
+  if (!isDevelopment) win.setMenu(null)
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
